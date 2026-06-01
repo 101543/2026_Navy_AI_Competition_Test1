@@ -78,7 +78,7 @@ Google Drive에 이미 `data/processed`가 있다면 Drive를 mount한 뒤 아�
 
 ```bash
 python src/train.py --config configs/colab_drive.yaml
-python src/predict.py --config configs/colab_drive.yaml --checkpoint /content/drive/MyDrive/2026_Navy_AI_Competition/outputs/models/best_model.pt
+python src/predict.py --config configs/colab_drive.yaml --checkpoint "/content/drive/MyDrive/2026.06.01 AI 학습 코드 파일/outputs/models/best_model.pt"
 ```
 
 학습이 끝나면 모델 파일은 `outputs/models/best_model.pt`에 저장됩니다.

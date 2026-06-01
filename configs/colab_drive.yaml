@@ -4,11 +4,11 @@ device: auto
 data:
   # In Colab, mount Google Drive and change this path to your Drive folder.
   # The folder should contain train.csv, val.csv, test.csv, train_images/, val_images/, test_images/.
-  root: /content/drive/MyDrive/2026_Navy_AI_Competition/data/raw
-  processed_dir: /content/drive/MyDrive/2026_Navy_AI_Competition/data/processed
-  train_csv: /content/drive/MyDrive/2026_Navy_AI_Competition/data/processed/train.csv
-  val_csv: /content/drive/MyDrive/2026_Navy_AI_Competition/data/processed/val.csv
-  test_csv: /content/drive/MyDrive/2026_Navy_AI_Competition/data/processed/test.csv
+  root: "/content/drive/MyDrive/2026.06.01 AI 학습 코드 파일/data/raw"
+  processed_dir: "/content/drive/MyDrive/2026.06.01 AI 학습 코드 파일/data/processed"
+  train_csv: "/content/drive/MyDrive/2026.06.01 AI 학습 코드 파일/data/processed/train.csv"
+  val_csv: "/content/drive/MyDrive/2026.06.01 AI 학습 코드 파일/data/processed/val.csv"
+  test_csv: "/content/drive/MyDrive/2026.06.01 AI 학습 코드 파일/data/processed/test.csv"
   val_ratio: 0.1
   num_workers: 2
 
@@ -21,5 +21,5 @@ model:
   num_classes: 10
 
 paths:
-  model_dir: /content/drive/MyDrive/2026_Navy_AI_Competition/outputs/models
-  submission_dir: /content/drive/MyDrive/2026_Navy_AI_Competition/outputs/submissions
+  model_dir: "/content/drive/MyDrive/2026.06.01 AI 학습 코드 파일/outputs/models"
+  submission_dir: "/content/drive/MyDrive/2026.06.01 AI 학습 코드 파일/outputs/submissions"
