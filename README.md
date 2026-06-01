@@ -67,11 +67,18 @@ id,image_path,label
 1. 이 프로젝트를 GitHub에 업로드합니다.
 2. Google Colab에서 `notebooks/colab_train.ipynb`를 엽니다.
 3. 노트북의 안내대로 GitHub 저장소를 clone합니다.
-4. 아래 명령으로 학습을 실행합니다.
+4. Drive를 쓰지 않는 경우 아래 명령으로 데이터를 만들고 학습합니다.
 
 ```bash
 python src/prepare_mnist.py --config configs/default.yaml
 python src/train.py --config configs/default.yaml
+```
+
+Google Drive에 이미 `data/processed`가 있다면 Drive를 mount한 뒤 아래처럼 학습합니다.
+
+```bash
+python src/train.py --config configs/colab_drive.yaml
+python src/predict.py --config configs/colab_drive.yaml --checkpoint /content/drive/MyDrive/2026_Navy_AI_Competition/outputs/models/best_model.pt
 ```
 
 학습이 끝나면 모델 파일은 `outputs/models/best_model.pt`에 저장됩니다.
