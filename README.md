@@ -32,8 +32,35 @@ mnist_competition_template/
 
 ## 2. 데이터셋
 
-이 프로젝트는 `torchvision.datasets.MNIST`를 사용합니다.
-데이터는 처음 학습할 때 자동으로 `data/raw/`에 다운로드됩니다.
+이 프로젝트는 `torchvision.datasets.MNIST`를 내려받은 뒤 실제 이미지 파일과 CSV로 변환해서 사용합니다.
+경진대회에서 자주 쓰는 `이미지 폴더 + 라벨 CSV` 구조를 연습하기 위한 방식입니다.
+
+```bash
+python src/prepare_mnist.py --config configs/default.yaml
+```
+
+실행 후 데이터 구조는 아래처럼 만들어집니다.
+
+```text
+data/processed/
+├── train.csv
+├── val.csv
+├── test.csv
+├── train_images/
+├── val_images/
+└── test_images/
+```
+
+CSV 예시는 다음과 같습니다.
+
+```text
+id,image_path,label
+1,train_images/00001.png,5
+2,train_images/00002.png,0
+```
+
+`test.csv`에는 정답 라벨이 없고, 예측 후 `outputs/submissions/submission.csv`를 만듭니다.
+이미지 데이터는 크기가 커질 수 있으므로 GitHub에는 올리지 않고 Colab에서 생성합니다.
 
 ## 3. Colab에서 학습하기
 
@@ -43,6 +70,7 @@ mnist_competition_template/
 4. 아래 명령으로 학습을 실행합니다.
 
 ```bash
+python src/prepare_mnist.py --config configs/default.yaml
 python src/train.py --config configs/default.yaml
 ```
 

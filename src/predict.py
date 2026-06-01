@@ -13,13 +13,15 @@ from utils import ensure_dir, get_device, load_config, project_root
 def predict(model, loader, device):
     model.eval()
     preds = []
+    image_ids = []
 
-    for images, _ in tqdm(loader, desc="predict"):
+    for images, ids in tqdm(loader, desc="predict"):
         images = images.to(device)
         logits = model(images)
         preds.extend(logits.argmax(dim=1).cpu().tolist())
+        image_ids.extend(ids.tolist())
 
-    return preds
+    return image_ids, preds
 
 
 def main():
@@ -38,7 +40,7 @@ def main():
     checkpoint = torch.load(root / args.checkpoint, map_location=device)
     model.load_state_dict(checkpoint["model_state_dict"])
 
-    preds = predict(model, test_loader, device)
+    image_ids, preds = predict(model, test_loader, device)
 
     submission_dir = root / config["paths"]["submission_dir"]
     ensure_dir(submission_dir)
@@ -46,7 +48,7 @@ def main():
 
     submission = pd.DataFrame(
         {
-            "ImageId": range(1, len(preds) + 1),
+            "ImageId": image_ids,
             "Label": preds,
         }
     )

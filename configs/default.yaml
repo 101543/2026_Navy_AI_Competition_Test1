@@ -3,6 +3,10 @@ device: auto
 
 data:
   root: data/raw
+  processed_dir: data/processed
+  train_csv: data/processed/train.csv
+  val_csv: data/processed/val.csv
+  test_csv: data/processed/test.csv
   val_ratio: 0.1
   num_workers: 2
 

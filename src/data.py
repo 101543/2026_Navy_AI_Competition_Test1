@@ -1,6 +1,37 @@
-import torch
-from torch.utils.data import DataLoader, Subset
-from torchvision import datasets, transforms
+from pathlib import Path
+
+import pandas as pd
+from PIL import Image
+from torch.utils.data import DataLoader, Dataset
+from torchvision import transforms
+
+
+class MNISTImageDataset(Dataset):
+    def __init__(self, csv_path, transform=None, has_label=True):
+        self.csv_path = Path(csv_path)
+        if not self.csv_path.exists():
+            raise FileNotFoundError(
+                f"{self.csv_path} not found. Run: python src/prepare_mnist.py --config configs/default.yaml"
+            )
+        self.data = pd.read_csv(self.csv_path)
+        self.transform = transform
+        self.has_label = has_label
+
+    def __len__(self):
+        return len(self.data)
+
+    def __getitem__(self, idx):
+        row = self.data.iloc[idx]
+        image_path = self.csv_path.parent / row["image_path"]
+        image = Image.open(image_path).convert("L")
+
+        if self.transform:
+            image = self.transform(image)
+
+        if self.has_label:
+            return image, int(row["label"])
+
+        return image, int(row["id"])
 
 
 def get_transforms(train=True):
@@ -25,32 +56,18 @@ def build_dataloaders(config):
     data_cfg = config["data"]
     train_cfg = config["train"]
 
-    train_source = datasets.MNIST(
-        root=data_cfg["root"],
-        train=True,
-        download=True,
+    train_dataset = MNISTImageDataset(
+        data_cfg["train_csv"],
         transform=get_transforms(train=True),
     )
-    val_source = datasets.MNIST(
-        root=data_cfg["root"],
-        train=True,
-        download=True,
+    val_dataset = MNISTImageDataset(
+        data_cfg["val_csv"],
         transform=get_transforms(train=False),
     )
-
-    val_size = int(len(train_source) * data_cfg["val_ratio"])
-    train_size = len(train_source) - val_size
-    generator = torch.Generator().manual_seed(config["seed"])
-    indices = torch.randperm(len(train_source), generator=generator).tolist()
-
-    train_dataset = Subset(train_source, indices[:train_size])
-    val_dataset = Subset(val_source, indices[train_size:])
-
-    test_dataset = datasets.MNIST(
-        root=data_cfg["root"],
-        train=False,
-        download=True,
+    test_dataset = MNISTImageDataset(
+        data_cfg["test_csv"],
         transform=get_transforms(train=False),
+        has_label=False,
     )
 
     train_loader = DataLoader(
