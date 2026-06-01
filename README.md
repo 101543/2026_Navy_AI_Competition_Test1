@@ -25,6 +25,7 @@ mnist_competition_template/
     ├── __init__.py
     ├── data.py
     ├── model.py
+    ├── prepare_mnist.py
     ├── train.py
     ├── predict.py
     └── utils.py
@@ -60,38 +61,23 @@ id,image_path,label
 ```
 
 `test.csv`에는 정답 라벨이 없고, 예측 후 `outputs/submissions/submission.csv`를 만듭니다.
-이미지 데이터는 크기가 커질 수 있으므로 GitHub에는 올리지 않고 Colab에서 생성합니다.
+이미지 데이터는 크기가 커질 수 있으므로 GitHub에는 올리지 않고 Colab이나 로컬 환경에서 생성합니다.
 
 ## 3. Colab에서 학습하기
 
-1. 이 프로젝트를 GitHub에 업로드합니다.
-2. Google Colab에서 `notebooks/colab_train.ipynb`를 엽니다.
-3. 노트북의 안내대로 GitHub 저장소를 clone합니다.
-4. Drive를 쓰지 않는 경우 아래 명령으로 데이터를 만들고 학습합니다.
+Colab에 이 코드 폴더를 직접 업로드하거나 GitHub 저장소를 clone한 뒤 아래 순서대로 실행합니다.
 
 ```bash
+pip install -r requirements.txt
 python src/prepare_mnist.py --config configs/default.yaml
 python src/train.py --config configs/default.yaml
-```
-
-Google Drive에 이미 `data/processed`가 있다면 Drive를 mount한 뒤 아래처럼 학습합니다.
-
-```bash
-python src/train.py --config configs/colab_drive.yaml
-python src/predict.py --config configs/colab_drive.yaml --checkpoint "/content/drive/MyDrive/2026.06.01 AI 학습 코드 파일/outputs/models/best_model.pt"
-```
-
-학습이 끝나면 모델 파일은 `outputs/models/best_model.pt`에 저장됩니다.
-
-## 4. 예측 파일 만들기
-
-```bash
 python src/predict.py --config configs/default.yaml --checkpoint outputs/models/best_model.pt
 ```
 
-결과 CSV는 `outputs/submissions/submission.csv`에 저장됩니다.
+학습이 끝나면 모델 파일은 `outputs/models/best_model.pt`에 저장됩니다.
+예측 결과 CSV는 `outputs/submissions/submission.csv`에 저장됩니다.
 
-## 5. GitHub에 올리기
+## 4. GitHub에 올리기
 
 터미널에서 프로젝트 폴더로 이동한 뒤 아래 명령을 실행하세요.
 
