@@ -1,0 +1,19 @@
+seed: 42
+device: auto
+
+data:
+  root: data/raw
+  val_ratio: 0.1
+  num_workers: 2
+
+train:
+  epochs: 5
+  batch_size: 128
+  learning_rate: 0.001
+
+model:
+  num_classes: 10
+
+paths:
+  model_dir: outputs/models
+  submission_dir: outputs/submissions
